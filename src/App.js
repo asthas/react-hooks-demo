@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useFetch from './useFetch';
 import './App.css';
 
 function App() {
   let [searchTerm, setSearchTerm] = useState('')
-  let data = useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${searchTerm}`)
+  let articles = useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${searchTerm}`)
   return(
     <div>
       <input
         type="search"
         onInput={(e) => setSearchTerm(e.target.value)}
       />
-      {data.map((d,i) => (
-        <li key={i}>{d}</li>
+      {articles.map((article,i) => (
+        <li key={i}>{article}</li>
       ))}
     </div>
   )
