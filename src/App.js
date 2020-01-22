@@ -13,11 +13,20 @@ function App() {
   return(
     <div>
       <input
-        type="search"
+        type='search'
         onInput={handleInput}
+        className='search-bar'
+        placeholder='Search wiki'
       />
-      {articles.map((article,i) => (
-        <li key={i}>{article}</li>
+      {articles.map((article) => (
+        Array.isArray(article)
+          ? article.map(item =>
+            item.length && item.includes('http')
+            ? <li key={item} className='result'>
+                <a href={item}>{item}</a>
+               </li>
+            : null)
+          : null
       ))}
     </div>
   )
