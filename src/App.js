@@ -1,15 +1,21 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import useFetch from './useFetch';
+import useDebounce from './useDebounce';
 import './App.css';
 
 function App() {
   let [searchTerm, setSearchTerm] = useState('')
+  const [results, setResults] = useState([])
 
   const handleInput = useCallback((e) => {
     setSearchTerm(e.target.value)
   }, [])
 
-  let articles = useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${searchTerm}`)
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+
+  let articles =
+    useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${debouncedSearchTerm}`)
+
   return(
     <div>
       <input
