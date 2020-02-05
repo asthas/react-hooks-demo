@@ -14,7 +14,7 @@ function App() {
     <div>
       <input
         type='search'
-        onInput={handleInput}
+        onChange={handleInput}
         className='search-bar'
         placeholder='Search wiki'
       />

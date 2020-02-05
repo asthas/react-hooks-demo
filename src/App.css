@@ -25,7 +25,7 @@
 }
 
 .result {
-  height: 100px;
+  padding: 12px 20px;
   background: lightgray;
   border: 1px solid grey;
   margin: 20px;
