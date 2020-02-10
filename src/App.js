@@ -19,7 +19,7 @@ function App() {
     useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${debouncedSearchTerm}`)
 
   let previews =
-    useFetchAllRequests(articles[3] || defaultVal)
+    useFetchAllRequests(articles[1] || defaultVal)
 
   return(
     <div>
@@ -29,7 +29,12 @@ function App() {
         className='search-bar'
         placeholder='Search wiki'
       />
-      {previews && previews.map(preview => <li>{preview}</li>)}
+      {console.log(previews)}
+      {previews && previews.map(previewList =>
+        previewList.map(
+          preview => <li key={preview.pageid.toString()}>{preview.title}</li>
+          )
+      )}
     </div>
   )
 }
