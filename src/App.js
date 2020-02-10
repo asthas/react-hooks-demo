@@ -16,15 +16,7 @@ function App() {
   let articles =
     useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${debouncedSearchTerm}`)
 
-  const fileteredArticles = (articles) => {
-    articles.forEach((article, i) => {
-      if(i === 3) {
-        console.log({ article })
-        return article
-      }
-    })
-    return []
-  }
+  const fileteredArticles = (articles) => articles[3] || []
 
   let previews =
     useFetchAllRequests(fileteredArticles(articles))
