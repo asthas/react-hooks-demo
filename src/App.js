@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import useFetch from './useFetch';
+import useFetchAllRequests from './useFetchAllRequests';
 import useDebounce from './useDebounce';
 import './App.css';
 
 function App() {
   let [searchTerm, setSearchTerm] = useState('')
-  const [results, setResults] = useState([])
 
   const handleInput = useCallback((e) => {
     setSearchTerm(e.target.value)
@@ -16,6 +16,19 @@ function App() {
   let articles =
     useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${debouncedSearchTerm}`)
 
+  const fileteredArticles = (articles) => {
+    articles.forEach((article, i) => {
+      if(i === 3) {
+        console.log({ article })
+        return article
+      }
+    })
+    return []
+  }
+
+  let previews =
+    useFetchAllRequests(fileteredArticles(articles))
+
   return(
     <div>
       <input
@@ -24,16 +37,7 @@ function App() {
         className='search-bar'
         placeholder='Search wiki'
       />
-      {articles.map((article) => (
-        Array.isArray(article)
-          ? article.map(item =>
-            item.length && item.includes('http')
-            ? <li key={item} className='result'>
-                <a href={item}>{item}</a>
-               </li>
-            : null)
-          : null
-      ))}
+      {previews && previews.map(preview => <li>{preview}</li>)}
     </div>
   )
 }

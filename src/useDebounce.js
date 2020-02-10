@@ -9,7 +9,7 @@ function useDebounce(val, delay){
     }, delay)
 
     return () => clearTimeout(handler)
-  }, [val])
+  }, [val, delay])
 
   return debouncedValue
 }
