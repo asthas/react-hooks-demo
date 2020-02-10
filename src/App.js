@@ -4,6 +4,8 @@ import useFetchAllRequests from './useFetchAllRequests';
 import useDebounce from './useDebounce';
 import './App.css';
 
+const defaultVal = []
+
 function App() {
   let [searchTerm, setSearchTerm] = useState('')
 
@@ -16,10 +18,8 @@ function App() {
   let articles =
     useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${debouncedSearchTerm}`)
 
-  const filteredArticles = (articles) => articles[3] || []
-
   let previews =
-    useFetchAllRequests(filteredArticles(articles))
+    useFetchAllRequests(articles[3] || defaultVal)
 
   return(
     <div>
