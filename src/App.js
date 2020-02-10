@@ -16,10 +16,10 @@ function App() {
   let articles =
     useFetch(`https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=${debouncedSearchTerm}`)
 
-  const fileteredArticles = (articles) => articles[3] || []
+  const filteredArticles = (articles) => articles[3] || []
 
   let previews =
-    useFetchAllRequests(fileteredArticles(articles))
+    useFetchAllRequests(filteredArticles(articles))
 
   return(
     <div>
