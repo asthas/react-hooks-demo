@@ -21,6 +21,8 @@ function App() {
   let previews =
     useFetchAllRequests(articles[1] || defaultVal)
 
+  const createMarkup = (markup) => ({__html: markup})
+
   return(
     <div>
       <input
@@ -32,7 +34,10 @@ function App() {
       {console.log(previews)}
       {previews && previews.map(previewList =>
         previewList.map(
-          preview => <li key={preview.pageid.toString()}>{preview.title}</li>
+          preview =>
+            <li key={preview.pageid.toString()}
+              dangerouslySetInnerHTML={createMarkup(preview.snippet)}>
+            </li>
           )
       )}
     </div>
