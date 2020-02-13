@@ -1,10 +1,20 @@
 import React, { useState, useCallback } from 'react';
+import sanitizeHtml from 'sanitize-html';
 import useFetch from './useFetch';
 import useFetchAllRequests from './useFetchAllRequests';
 import useDebounce from './useDebounce';
 import './App.css';
 
 const defaultVal = []
+
+const createMarkup = (markup) => (
+  {__html: sanitizeHtml(markup, {
+    allowedTags: [ 'span' ],
+    allowedClasses: {
+      span: ['searchmatch']
+    }
+  })}
+)
 
 function App() {
   let [searchTerm, setSearchTerm] = useState('')
@@ -21,8 +31,6 @@ function App() {
   let previews =
     useFetchAllRequests(articles[1] || defaultVal)
 
-  const createMarkup = (markup) => ({__html: markup})
-
   return(
     <div>
       <input
@@ -31,13 +39,15 @@ function App() {
         className='search-bar'
         placeholder='Search wiki'
       />
-      {console.log(previews)}
       {previews && previews.map(previewList =>
         previewList.map(
           preview =>
-            <li key={preview.pageid.toString()}
-              dangerouslySetInnerHTML={createMarkup(preview.snippet)}>
-            </li>
+            <div className='preview'>
+              <div className='title'>{preview.title}</div>
+              <li key={preview.pageid.toString()}
+                dangerouslySetInnerHTML={createMarkup(preview.snippet)}>
+              </li>
+            </div>
           )
       )}
     </div>
